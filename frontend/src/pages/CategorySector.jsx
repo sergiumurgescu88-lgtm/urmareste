@@ -5,24 +5,31 @@ import { SECTOARE } from '../data/sectors.js';
 
 export default function CategorySector() {
   const { categorySlug, sectorSlug } = useParams();
-  const [listari, setListari] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [doarVerificati, setDoarVerificati] = useState(false);
-
+  
   const categorie = CATEGORII.find((c) => c.slug === categorySlug);
   const sector = SECTOARE.find((s) => s.slug === sectorSlug);
 
-  useEffect(() => {
-    setLoading(true);
-    const params = new URLSearchParams({ category: categorySlug, sector: sectorSlug });
-    if (doarVerificati) params.set('verified', 'true');
+  // Citește starea pre-încărcată de scriptul de SSG, dacă există
+  const preloaded = window.__PRELOADED_STATE__?.[`${categorySlug}/${sectorSlug}`];
+  
+  const [listari, setListari] = useState(preloaded || []);
+  const [loading, setLoading] = useState(!preloaded);
+  const [doarVerificati, setDoarVerificati] = useState(false);
 
-    fetch(`/api/business?${params}`)
-      .then((r) => r.json())
-      .then(setListari)
-      .catch(() => setListari([]))
-      .finally(() => setLoading(false));
-  }, [categorySlug, sectorSlug, doarVerificati]);
+  useEffect(() => {
+    // Dacă nu avem date pre-încărcate (ex: navigare client-side), facem fetch
+    if (!preloaded || doarVerificati) {
+      setLoading(true);
+      const params = new URLSearchParams({ category: categorySlug, sector: sectorSlug });
+      if (doarVerificati) params.set('verified', 'true');
+
+      fetch(`/api/business?${params}`)
+        .then((r) => r.json())
+        .then(setListari)
+        .catch(() => setListari([]))
+        .finally(() => setLoading(false));
+    }
+  }, [categorySlug, sectorSlug, doarVerificati, preloaded]);
 
   if (!categorie || !sector) {
     return <p>Pagina nu a fost găsită.</p>;

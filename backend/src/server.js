@@ -8,6 +8,8 @@ import categoriesRouter from './routes/categories.js';
 import sectorsRouter from './routes/sectors.js';
 import businessRouter from './routes/business.js';
 import leadsRouter from './routes/leads.js';
+import adminRouter from './routes/admin.js';
+import photosRouter from './routes/photos.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -19,6 +21,8 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/sectors', sectorsRouter);
 app.use('/api/business', businessRouter);
 app.use('/api/leads', leadsRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/photos', photosRouter);
 
 // productie: serveste build-ul React (Vite) generat in ../frontend/dist
 const distPath = path.join(__dirname, '../../frontend/dist');
