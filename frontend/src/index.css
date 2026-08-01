@@ -2,9 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fundal animat subtil, premium */
+.bg-aurora {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: #080808;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-aurora::before,
+.bg-aurora::after {
+  content: '';
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  max-width: 800px;
+  max-height: 800px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.12;
+  animation: float 25s infinite ease-in-out alternate;
+}
+
+.bg-aurora::before {
+  background: radial-gradient(circle, #c8a96e 0%, transparent 70%);
+  top: -15%;
+  left: -15%;
+}
+
+.bg-aurora::after {
+  background: radial-gradient(circle, #e8c98e 0%, transparent 70%);
+  bottom: -15%;
+  right: -15%;
+  animation-delay: -12s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 40px) scale(1.05); }
+  100% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Optimizări globale pentru mobile */
 body {
   margin: 0;
   font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #080808;
+  color: #ffffff;
+  touch-action: manipulation; /* Îmbunătățește răspunsul la tap pe mobile */
+}
+
+/* Scrollbar subtil */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8a96e40;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c8a96e80;
 }
