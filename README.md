@@ -1,84 +1,24 @@
-# urmărește.online — Faza 0
+# 🛠️ urmărește.online | Modern Service Marketplace
 
-Director de meseriași pentru București + Ilfov. Stack: React/Vite + Node/Express + PostgreSQL.
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?logo=vite)](https://vitejs.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-3.x-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?logo=node.js)](https://nodejs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-4169E1?logo=postgresql)](https://www.postgresql.org/)
 
-## Structură
+> Platformă marketplace de servicii, optimizată SEO, mobile-first, care conectează clienții cu meseriași verificați.
 
-```
-backend/     API Express (categorii, sectoare, business, leads) + schema.sql
-frontend/    React/Vite — Home, /categorie/sector, profil, formular listare
-```
+## ✨ Funcționalități Cheie
+- 🚀 **SEO & Viteză**: Pre-rendering (SSG) pentru 90+ rute dinamice.
+- 📱 **UI Premium Mobile-First**: Design curat Tailwind CSS, iconițe SVG custom.
+- 🔐 **Dashboards Dedicate**: Panou Admin (moderare) și Dashboard Meseriaș (portofoliu, recenzii).
+- 📸 **Upload Foto**: Gestionare media integrată pentru portofoliu.
+- ⭐ **Sistem de Încredere**: Recenzii, badge-uri "Verificat" și planuri (Free, Premium, Elite).
 
-## 1. Setup local (dezvoltare)
+## 🚀 Instalare Rapidă
+1. \`git clone https://github.com/sergiumurgescu88-lgtm/urmareste.git\`
+2. \`cd urmareste/backend && npm install && npm run dev\`
+3. \`cd ../frontend && npm install && npm run dev\`
 
-```bash
-# baza de date
-sudo -u postgres createuser urmareste_user -P
-sudo -u postgres createdb urmareste -O urmareste_user
-psql -U urmareste_user -d urmareste -f backend/schema.sql
-
-# backend
-cd backend
-cp .env.example .env    # editează DATABASE_URL cu parola reală
-npm install
-npm run dev              # http://localhost:4000
-
-# frontend (alt terminal)
-cd frontend
-npm install
-npm run dev               # http://localhost:5173, proxy /api -> :4000
-```
-
-## 2. Deploy pe VPS (Ubuntu, PM2 + Nginx — ca restul proiectelor tale)
-
-```bash
-# pe server, in /var/www/urmareste-online (sau unde tii proiectele)
-git clone <repo> urmareste-online
-cd urmareste-online
-
-# DB
-sudo -u postgres createuser urmareste_user -P
-sudo -u postgres createdb urmareste -O urmareste_user
-psql -U urmareste_user -d urmareste -f backend/schema.sql
-
-# backend
-cd backend && npm install --production
-cp .env.example .env   # seteaza DATABASE_URL + PORT
-
-# build frontend (backend serveste dist/ automat)
-cd ../frontend && npm install && npm run build
-
-# pornire cu PM2
-cd ../backend
-pm2 start src/server.js --name urmareste-backend
-pm2 save
-```
-
-### Nginx (reverse proxy către portul backend-ului, ex 4000)
-
-```nginx
-server {
-    listen 80;
-    server_name urmareste.online www.urmareste.online;
-
-    location / {
-        proxy_pass http://localhost:4000;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-```
-
-Apoi `certbot --nginx -d urmareste.online -d www.urmareste.online` pentru SSL.
-
-## 3. Ce urmează (Faza 1)
-
-- Panou admin simplu pentru aprobarea profilurilor noi (`business.activ`) — nu există încă, momentan toate se salvează direct; adaugă un flag de moderare înainte de lansare publică.
-- Upload poze (`business_photo`) — endpoint-ul nu e implementat încă, momentan doar schema există.
-- Populare manuală: minim 8-10 profiluri per categorie caldă în Sector 1-3 și 6.
-
-## Note tehnice
-
-- Paginile `/categorie/sector` sunt randate client-side (SPA). Pentru indexare optimă Google, ia în calcul `vite-react-ssg` sau pre-render la build — momentan lipsă, dar structura de rute e deja pregătită pentru asta.
-- Autorizația (`autorizatie_scan_url`) nu e niciodată expusă în răspunsul public al API-ului.
+## 🌟 Susține Proiectul
+Dacă îți place acest proiect, te rog să îi oferi un ⭐ **Star** pe GitHub!
