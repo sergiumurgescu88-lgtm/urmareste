@@ -9,6 +9,8 @@ import CategorySector from './pages/CategorySector.jsx';
 import BusinessProfile from './pages/BusinessProfile.jsx';
 import ListBusinessForm from './pages/ListBusinessForm.jsx';
 import Admin from './pages/Admin.jsx';
+import Login from './pages/Login.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -20,6 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="profil/:id" element={<BusinessProfile />} />
           <Route path="listeaza-te" element={<ListBusinessForm />} />
           <Route path="admin" element={<Admin />} />
+          <Route path="login" element={<Login />} />
+          <Route path="dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
