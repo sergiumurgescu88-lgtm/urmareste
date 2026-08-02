@@ -29,71 +29,67 @@ export default function CategorySector() {
 
   if (!categorie || !sector) {
     return (
-      <div className="text-center py-20">
-        <p className="text-primary text-xl">Pagina nu a fost găsită.</p>
-        <Link to="/" className="text-primaryLight underline mt-4 inline-block">Înapoi acasă</Link>
+      <div className="text-center py-16">
+        <p className="text-primary text-lg font-semibold mb-3">Pagina nu a fost găsită.</p>
+        <Link to="/" className="text-textLight underline hover:text-primary">Înapoi acasă</Link>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-display font-bold text-white mb-2 leading-tight">
-          {categorie.nume} <span className="text-white/40">în</span> {sector.nume}
+    <div className="space-y-6">
+      <div>
+        <h1 className="mb-2">
+          {categorie.nume} <span className="text-textLight font-normal">în</span> {sector.nume}
         </h1>
-        <p className="text-white/60 text-base md:text-lg leading-relaxed">
-          Meseriași verificați și disponibili în {sector.nume}. Găsește rapid profesioniști de încredere.
+        <p className="text-textLight">
+          Meseriași verificați în {sector.nume}.
         </p>
       </div>
 
-      <label className="inline-flex items-center gap-3 mb-8 p-3 rounded-xl bg-primary/5 border border-primary/20 cursor-pointer active:bg-primary/10">
+      <label className="flex items-center gap-2 p-3 rounded-xl bg-white border border-gray-200 shadow-sm cursor-pointer active:bg-gray-50">
         <input
           type="checkbox"
-          className="w-5 h-5 rounded border-primary/30 text-primary focus:ring-primary/50 bg-bg"
+          className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary/30"
           checked={doarVerificati}
           onChange={(e) => setDoarVerificati(e.target.checked)}
         />
-        <span className="text-sm md:text-base font-medium text-white/90">Doar meseriași verificați</span>
+        <span className="text-sm font-medium text-text">Doar verificați</span>
       </label>
 
       {loading && (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
         </div>
       )}
 
       {!loading && listari.length === 0 && (
-        <div className="card text-center py-10">
-          <p className="text-white/80 mb-6 text-lg">
-            Încă nu avem meseriași listați pentru <span className="text-primary font-semibold">{categorie.nume.toLowerCase()}</span> în <span className="text-primary font-semibold">{sector.nume}</span>.
+        <div className="card text-center py-8">
+          <p className="text-textLight mb-4">
+            Nu avem meseriași pentru {categorie.nume.toLowerCase()} în {sector.nume}.
           </p>
           <Link to="/listeaza-te" className="btn-primary">
-            Fii primul listat aici
+            Fii primul listat
           </Link>
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {listari.map((b) => (
-          <Link key={b.id} to={'/profil/' + b.id} className="card block">
-            <div className="flex flex-col gap-3">
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <h3 className="text-lg md:text-xl font-bold text-white">{b.nume}</h3>
-                  {b.is_verified && (
-                    <span className="px-2 py-0.5 bg-blue-500/10 text-blue-300 text-xs font-semibold rounded-full border border-blue-500/20">Verificat</span>
-                  )}
-                  {b.plan === 'elite' && (
-                    <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20">Elite</span>
-                  )}
+          <Link key={b.id} to={'/profil/' + b.id} className="card block active:scale-[0.98]">
+            <div className="flex justify-between items-start gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+                  <h3 className="text-text truncate">{b.nume}</h3>
+                  {b.is_verified && <span className="badge badge-verified">✓</span>}
+                  {b.plan === 'elite' && <span className="badge badge-elite">Elite</span>}
                 </div>
-                <p className="text-white/60 text-sm line-clamp-2">
-                  {b.descriere || 'Profesionist cu experiență, gata să îți rezolve problema rapid.'}
+                <p className="text-textLight text-sm line-clamp-2">
+                  {b.descriere || 'Profesionist cu experiență.'}
                 </p>
               </div>
               {b.rating_mediu && (
-                <div className="flex items-center gap-1.5 text-primary font-bold text-lg self-start md:self-center">
+                <div className="flex items-center gap-1 text-primary font-semibold text-sm flex-shrink-0">
                   <span>★</span>
                   <span>{b.rating_mediu}</span>
                 </div>
